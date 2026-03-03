@@ -7,8 +7,6 @@ img_btn.forEach((img) => {
     })
 })
 
-
-
 setTimeout(() => {
  Logo_Img.className = "logo_img"
 }, 1000)

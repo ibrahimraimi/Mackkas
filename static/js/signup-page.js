@@ -1,5 +1,3 @@
-/* Mackkas Signup Logic */
-
 const Signup_Form = document.getElementById("signupform");
 const Success_Toast = document.getElementById("successToast");
 const Error_Toast = document.getElementById("errorToast");
@@ -13,6 +11,7 @@ Signup_Form.onsubmit = async function(e) {
     Error_Toast.className = "validate_hide";
     
     const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirm-password").value;
@@ -25,21 +24,21 @@ Signup_Form.onsubmit = async function(e) {
     }
 
     if (password.length < 6) {
-        Err_Msg.textContent = "Password must be at least 6 characters";
+        Err_Msg.textContent = "Min 6 characters required";
         Error_Toast.className = "validate";
         return;
     }
     
     const submitBtn = document.getElementById("signup_btn");
     const originalBtnText = submitBtn.textContent;
-    submitBtn.textContent = "Creating Account...";
+    submitBtn.textContent = "Processing...";
     submitBtn.disabled = true;
 
     try {
         const response = await fetch('/api/auth/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, username, password })
+            body: JSON.stringify({ name, email, username, password })
         });
 
         const result = await response.json();
@@ -57,7 +56,7 @@ Signup_Form.onsubmit = async function(e) {
         }
     } catch (error) {
         console.error("Signup error:", error);
-        Err_Msg.textContent = "An error occurred. Please try again.";
+        Err_Msg.textContent = "System Error. Try later.";
         Error_Toast.className = "validate";
         submitBtn.textContent = originalBtnText;
         submitBtn.disabled = false;

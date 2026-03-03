@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join Mackkas | Luxury Fashion Registry</title>
+    <title>Mackkas | Join Us</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/signup-page.css') }}">
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
@@ -12,66 +12,64 @@
     <div class="split-layout">
         <div class="auth-visual">
             <img src="{{ url_for('static', filename='images/red-wine-gown.png') }}" alt="Mackkas Elegance" class="auth-visual__img">
-            <div class="auth-visual__overlay">
-                <div class="auth-visual__content">
-                    <img src="{{ url_for('static', filename='images/mackkas-brand-logo.png') }}" alt="Mackkas" class="auth-logo">
-                    <h2>Join the Elite</h2>
-                    <p>Become part of the Mackkas community and enjoy exclusive access to our premium collections and personalized styling services.</p>
-                </div>
-            </div>
         </div>
 
         <div class="auth-form-container">
             <div class="auth-form-card">
                 <div class="auth-form-header">
                     <h1>Create Account</h1>
-                    <p>Register to start your luxury fashion journey</p>
+                    <p>Register to start your minimalist fashion journey</p>
                 </div>
 
                 <form id="signupform" class="auth-form">
                     <div class="form-group">
                         <label for="name">Full Name</label>
                         <div class="input-wrapper">
-                            <iconify-icon icon="lucide:user-plus"></iconify-icon>
                             <input type="text" id="name" placeholder="Enter your full name" required>
+                            <iconify-icon icon="lucide:user-plus"></iconify-icon>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <div class="input-wrapper">
+                            <input type="email" id="email" placeholder="Enter your email" required>
+                            <iconify-icon icon="lucide:mail"></iconify-icon>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="username">Username</label>
                         <div class="input-wrapper">
-                            <iconify-icon icon="lucide:at-sign"></iconify-icon>
                             <input type="text" id="username" placeholder="Choose a username" required>
+                            <iconify-icon icon="lucide:at-sign"></iconify-icon>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="password">Password</label>
                         <div class="input-wrapper">
+                            <input type="password" id="password" placeholder="Create a password" required>
                             <iconify-icon icon="lucide:lock"></iconify-icon>
-                            <input type="password" id="password" placeholder="Create a strong password" required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="confirm-password">Confirm Password</label>
                         <div class="input-wrapper">
+                            <input type="password" id="confirm-password" placeholder="Repeat password" required>
                             <iconify-icon icon="lucide:shield-check"></iconify-icon>
-                            <input type="password" id="confirm-password" placeholder="Repeat your password" required>
                         </div>
                     </div>
 
                     <div class="form-options">
                         <label class="checkbox-container">
                             <input type="checkbox" required>
-                            <span class="checkmark"></span>
                             I agree to the <a href="#">Terms & Conditions</a>
                         </label>
                     </div>
 
-                    <button type="submit" id="signup_btn" class="button button--primary button--large w-full">
-                        Create Account
-                    </button>
+                    <button type="submit" id="signup_btn" class="button button--primary w-full">Join Mackkas</button>
 
                     <p class="auth-switch">
                         Already have an account? 
@@ -86,11 +84,11 @@
     <div class="toast-container">
         <div class="successful_hide" id="successToast">
             <iconify-icon icon="lucide:check-circle"></iconify-icon>
-            <h3>Account created!</h3>
+            <span>Account Created</span>
         </div>
         <div class="validate_hide" id="errorToast">
             <iconify-icon icon="lucide:alert-circle"></iconify-icon>
-            <h3 id="errMsg">Something went wrong</h3>
+            <span id="errMsg">Signup Failed</span>
         </div>
     </div>
 

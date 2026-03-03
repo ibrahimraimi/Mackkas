@@ -3,190 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop | Mackkas Luxury Collection</title>
+    <title>Mackkas | Shop Our Collection</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/product-catalog.css') }}">
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 </head>
 <body>
     <header class="header">
-        <div class="header__topbar">
-            <div class="container">
-                <p class="text-sm">Free shipping on orders over $200 | Premium packaging included</p>
-            </div>
-        </div>
-        
-        <nav class="header__nav">
-            <div class="container">
-                <div class="nav__content">
-                    <a href="/" class="nav__logo">
-                        <img src="{{ url_for('static', filename='images/mackkas-brand-logo.png') }}" alt="Mackkas" />
-                        <span class="nav__tagline">Dress with style...</span>
+        <div class="container">
+            <nav class="nav__content">
+                <ul class="nav__menu">
+                    <li><a href="{{ url_for('product_catalog') }}" class="nav_link">Shop</a></li>
+                    <li><a href="{{ url_for('product_catalog') }}" class="nav_link">New in</a></li>
+                    <li><a href="{{ url_for('index') }}#about" class="nav_link">About</a></li>
+                </ul>
+
+                <a href="/" class="nav__logo">Mackkas</a>
+
+                <div class="nav__actions">
+                    <button class="nav__icon" aria-label="Search">
+                        <iconify-icon icon="lucide:search"></iconify-icon>
+                    </button>
+                    <a href="{{ url_for('login_page') }}" class="nav__icon" aria-label="Account">
+                        <iconify-icon icon="lucide:user"></iconify-icon>
                     </a>
-                    
-                    <ul class="nav__menu">
-                        <li class="nav__item"><a href="{{ url_for('product_catalog') }}" class="nav__link">Shop All</a></li>
-                        <li class="nav__item"><a href="{{ url_for('product_catalog') }}" class="nav__link" onclick="filter('Men')">Men</a></li>
-                        <li class="nav__item"><a href="{{ url_for('product_catalog') }}" class="nav__link" onclick="filter('Women')">Women</a></li>
-                        <li class="nav__item"><a href="{{ url_for('product_catalog') }}" class="nav__link">New Arrivals</a></li>
-                    </ul>
-                    
-                    <div class="nav__actions">
-                        <div class="nav__search">
-                            <input class="search_input" type="text" placeholder="Search...">
-                            <iconify-icon icon="lucide:search"></iconify-icon>
-                        </div>
-                        <a href="{{ url_for('login_page') }}" class="nav__icon" aria-label="Account">
-                            <iconify-icon icon="lucide:user"></iconify-icon>
-                        </a>
-                        <button class="nav__icon nav__cart" aria-label="Cart">
-                            <iconify-icon icon="lucide:shopping-bag"></iconify-icon>
-                            <span class="badge number">0</span>
-                        </button>
-                    </div>
+                    <button class="nav__icon nav__cart" id="openCartBtn" aria-label="Cart">
+                        <iconify-icon icon="lucide:shopping-bag"></iconify-icon>
+                        <span class="badge" id="cartCountBadge">0</span>
+                    </button>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        </div>
     </header>
 
     <main class="container">
-        <!-- Products Toolbar -->
-        <div class="products__toolbar">
-            <div class="products__filters">
-                <button class="filter-button" id="categoryBtn">
-                    <iconify-icon icon="lucide:filter"></iconify-icon>
-                    Filters
-                </button>
-                
-                <div class="active-filters">
-                    <span class="filter-tag">
-                        All <button>×</button>
-                    </span>
-                </div>
-            </div>
-            
-            <div class="products__sort">
-                <select class="sort-dropdown">
-                    <option>Featured</option>
-                    <option>Price: Low to High</option>
-                    <option>Price: High to Low</option>
-                </select>
-                
-                <div class="view-toggle">
-                    <button class="view-toggle__btn active">
-                        <iconify-icon icon="lucide:layout-grid"></iconify-icon>
-                    </button>
-                    <button class="view-toggle__btn">
-                        <iconify-icon icon="lucide:list"></iconify-icon>
-                    </button>
-                </div>
+        <!-- Catalog Header -->
+        <div class="catalog-header">
+            <div class="catalog-header__container">
+                <h1 class="catalog-header__title" id="currentCategoryTitle">All Collection</h1>
+                <span class="catalog-header__count" id="productCountText">26 Items</span>
             </div>
         </div>
 
-        <!-- Category Menu Sidebar (Hidden by default) -->
-        <div class="category_blocker_hide" id="categoryBlocker"></div>
-        <aside class="category" id="categorySidebar">
-            <div class="category__header">
-                <h2>Browse Categories</h2>
-                <button class="category__close">×</button>
-            </div>
-            <div class="category__list">
-                <span id="AllFilter" class="filter-btn active" onclick="filter('All')">All Collection</span>
-                <span id="MenFilter" class="filter-btn" onclick="filter('Men')">Men's Fashion</span>
-                <span id="WomenFilter" class="filter-btn" onclick="filter('Women')">Women's Fashion</span>
-                <span id="SuitsFilter" class="filter-btn" onclick="filter('Suits')">Premium Suits</span>
-                <span id="GownsFilter" class="filter-btn" onclick="filter('Gowns')">Elegant Gowns</span>
-                <span id="WatchesFilter" class="filter-btn" onclick="filter('Watches')">Luxury Watches</span>
-                <span id="BagsFilter" class="filter-btn" onclick="filter('Bags')">Designer Bags</span>
+        <!-- Products Toolbar -->
+        <div class="products__toolbar">
+            <div class="toolbar__filters">
+                <button class="filter-btn" onclick="ToggleFilterMenu()">
+                    Filter <iconify-icon icon="lucide:chevron-down"></iconify-icon>
+                </button>
+                <div class="toolbar__category-pills" id="categoryPillList">
+                    <!-- Categories will be rendered here -->
+                </div>
             </div>
             
-            <div class="category__price-filter">
-                <h3>Price Range</h3>
-                <div class="slidervalue">
-                    <span class="slide-value">$100</span>
-                </div>
-                <div class="field">
-                    <span>$20</span>
-                    <input id="range" type="range" min="20" max="2000" value="100" step="1">
-                    <span>$2000</span>
-                </div>
+            <div class="toolbar__sort">
+                <select id="sortSelect" onchange="HandleSort(this.value)" class="filter-btn" style="border:none; background:none; text-transform: uppercase;">
+                    <option value="featured">Sort by: Featured</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                </select>
             </div>
-        </aside>
+        </div>
 
         <!-- Product Grid -->
-        <div class="product-container">
-            <div class="product products__grid">
-                <!-- Products dynamically rendered by Mackkas.js -->
-            </div>
+        <div class="products__grid" id="productGrid">
+            <!-- Products will be dynamically rendered here -->
         </div>
     </main>
 
-    <!-- Modern Cart Drawer -->
+    <!-- Cart Drawer -->
     <div class="cart_blocker_hide" id="cartOverlay"></div>
     <aside class="cart-drawer close_cart" id="cartDrawer">
-        <div class="cart-drawer__content">
-            <div class="cart-drawer__header">
-                <div class="cart-drawer__title">
-                    <h2>Shopping Cart</h2>
-                    <span class="cart-drawer__count"><span class="number">0</span> items</span>
-                </div>
-                <button class="cart-drawer__close" id="close" aria-label="Close cart">
-                    <iconify-icon icon="lucide:x"></iconify-icon>
-                </button>
-            </div>
-            
-            <div class="cart-drawer__items list_cart">
-                <!-- Cart items rendered by JS -->
-            </div>
-            
-            <div class="cart-drawer__summary">
-                <div class="summary-row">
-                    <span>Subtotal</span>
-                    <span class="total">$0</span>
-                </div>
-                <div class="summary-row">
-                    <span>Shipping</span>
-                    <span class="text-success" style="color: var(--color-success)">Calculated at checkout</span>
-                </div>
-                <div class="summary-row summary-row--total">
-                    <span>Estimated Total</span>
-                    <span class="total-price total">$0</span>
-                </div>
-            </div>
-            
-            <div class="cart-drawer__actions">
-                <button class="button button--primary button--large" onclick="Buy()">
-                    Proceed to Checkout
-                </button>
-                <button class="button button--outline button--large" onclick="CloseCart()">
-                    Continue Shopping
-                </button>
-            </div>
+        <div class="cart-drawer__header">
+            <h2 class="cart-drawer__title">Shopping Bag</h2>
+            <button class="close-cart-btn" id="closeCartBtn">
+                <iconify-icon icon="lucide:x"></iconify-icon>
+            </button>
+        </div>
 
-            <div class="cart-drawer__trust">
-                <div class="trust-badge">
-                    <iconify-icon icon="lucide:shield-check"></iconify-icon>
-                    <span>Secure</span>
-                </div>
-                <div class="trust-badge">
-                    <iconify-icon icon="lucide:truck"></iconify-icon>
-                    <span>Free Shipping</span>
-                </div>
-                <div class="trust-badge">
-                    <iconify-icon icon="lucide:refresh-cw"></iconify-icon>
-                    <span>30-Day Returns</span>
-                </div>
+        <div class="cart-items" id="cartItemsContainer">
+            <!-- Cart items will be rendered here -->
+        </div>
+
+        <div class="cart-drawer__footer">
+            <div class="cart-summary__row">
+                <span>Subtotal</span>
+                <span id="cartSubtotal">$0.00</span>
             </div>
+            <p style="font-size: 10px; color: var(--color-neutral-500); margin-bottom: 20px;">Shipping and taxes calculated at checkout</p>
+            
+            <button class="button button--primary w-full" style="margin-bottom: 15px;">Proceed to Checkout</button>
+            <button class="button button--outline w-full" id="continueShoppingBtn">Continue Shopping</button>
         </div>
     </aside>
-
-    <!-- Feedback Toasts -->
-    <div class="toast-container">
-        <div id="successToast" class="success_hide"><h1>Purchase Successful</h1></div>
-        <div id="pendingToast" class="pending_hide"><h1>Processing...</h1></div>
-        <div id="alreadyToast" class="not-in-cart"><h1>Already in Cart</h1></div>
-        <div id="nothingToast" class="nothing-in-cart_hide"><h1>Your cart is empty</h1></div>
-    </div>
 
     <script src="{{ url_for('static', filename='js/product-catalog.js') }}"></script>
 </body>
