@@ -70,7 +70,7 @@ function RenderProductDetail(product) {
 
                 <div class="product-detail__actions">
                     <button class="button button--primary w-full" onclick="AddToCart(${product.id})">Add to Bag</button>
-                    <button class="button button--outline w-full">Express Checkout</button>
+                    <button class="button button--outline w-full" onclick="window.location.href='/checkout'">Express Checkout</button>
                 </div>
 
                 <div class="product-detail__meta">

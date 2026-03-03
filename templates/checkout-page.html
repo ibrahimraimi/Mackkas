@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/checkout-page.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="checkout">
+        <div class="checkout__main">
+            <section class="checkout__section">
+                <h2 class="checkout__section-title">Shipping Address</h2>
+                <form id="checkoutForm" class="checkout-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" id="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="postalCode">Postal Code</label>
+                            <input type="text" id="postalCode" required>
+                        </div>
+                    </div>
+                    
+                    <h2 class="checkout__section-title" style="margin-top: 40px;">Payment Method</h2>
+                    <div class="payment-methods">
+                        <label class="payment-method">
+                            <input type="radio" name="payment" value="card" checked>
+                            <span class="payment-method__label">Credit / Debit Card</span>
+                        </label>
+                        <div class="card-inputs">
+                            <div class="form-group">
+                                <label for="cardNumber">Card Number</label>
+                                <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="expiry">Expiry Date</label>
+                                    <input type="text" id="expiry" placeholder="MM/YY">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cvv">CVV</label>
+                                    <input type="text" id="cvv" placeholder="000">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+
+        <aside class="checkout__sidebar">
+            <div class="order-summary" id="orderSummary">
+                <h2 class="order-summary__title">Order Summary</h2>
+                <div class="order-summary__items" id="checkoutItems">
+                    <!-- Items will be rendered here -->
+                </div>
+                <div class="order-summary__footer">
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="checkoutSubtotal">$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span>Complimentary</span>
+                    </div>
+                    <div class="summary-row summary-row--total">
+                        <span>Total</span>
+                        <span id="checkoutTotal">$0.00</span>
+                    </div>
+                    <button type="submit" form="checkoutForm" class="button button--primary w-full" id="completePurchaseBtn">
+                        Complete Purchase
+                    </button>
+                    <p class="checkout-secure">
+                        <iconify-icon icon="lucide:shield-check"></iconify-icon>
+                        Secure Encrypted Checkout
+                    </p>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="overlay cart_blocker_hide" id="successOverlay"></div>
+    <div class="success-modal cart_blocker_hide" id="successModal">
+        <iconify-icon icon="lucide:check-circle" class="success-modal__icon"></iconify-icon>
+        <h2 class="success-modal__title">Order Placed!</h2>
+        <p class="success-modal__text">Thank you for your purchase. Your order <span id="orderId">MKK-827394</span> has been confirmed.</p>
+        <button class="button button--primary w-full" onclick="window.location.href='/'">Continue Shopping</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{{ url_for('static', filename='js/checkout-page.js') }}"></script>
+{% endblock %}

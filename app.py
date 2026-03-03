@@ -89,6 +89,21 @@ def privacy_page():
 def terms_page():
     return render_template('terms-page.html')
 
+@app.route('/checkout')
+def checkout_page():
+    if 'user_id' not in session:
+        return redirect(url_for('login_page'))
+    return render_template('checkout-page.html')
+
+@app.route('/api/order/complete', methods=['POST'])
+def complete_order():
+    if 'user_id' not in session:
+        return jsonify({'message': 'Unauthorized'}), 401
+    # Mock order completion logic
+    CartItem.query.filter_by(user_id=session['user_id']).delete()
+    db.session.commit()
+    return jsonify({'message': 'Order placed successfully', 'order_id': 'MKK-827394'}), 200
+
 @app.route('/api/auth/signup', methods=['POST'])
 def signup():
     data = request.json
