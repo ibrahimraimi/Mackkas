@@ -1,13 +1,14 @@
 .split-layout {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   background-color: var(--color-white);
 }
 
 .auth-visual {
   display: none;
   position: relative;
-  flex: 1.2;
+  flex: 1;
   overflow: hidden;
   background-color: var(--color-neutral-50);
 }
@@ -31,6 +32,7 @@
   align-items: center;
   justify-content: center;
   padding: var(--spacing-6);
+  overflow-y: auto;
 }
 
 .auth-form-card {
