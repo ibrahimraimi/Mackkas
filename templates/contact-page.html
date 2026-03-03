@@ -1,142 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mackkas | Contact Us</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+{% extends 'base.html' %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block extra_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/contact-page.css') }}">
-    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon/favicon.ico') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/favicon/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon/favicon-16x16.png') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='images/favicon/site.webmanifest') }}">
-</head>
-<body>
-    <header class="header">
-        <div class="container">
-            <nav class="nav__content">
-                <ul class="nav__menu">
-                    <li><a href="{{ url_for('product_catalog') }}" class="nav_link">Shop</a></li>
-                    <li><a href="{{ url_for('product_catalog') }}" class="nav_link">New in</a></li>
-                    <li><a href="{{ url_for('about_page') }}" class="nav_link">About</a></li>
-                </ul>
+{% endblock %}
 
-                <a href="/" class="nav__logo">Mackkas</a>
-
-                <div class="nav__actions">
-                    <a href="{{ url_for('search_page') }}" class="nav__icon" aria-label="Search">
-                        <iconify-icon icon="lucide:search"></iconify-icon>
-                    </a>
-                    <a href="{{ url_for('profile_page') }}" class="nav__icon" aria-label="Account">
-                        <iconify-icon icon="lucide:user"></iconify-icon>
-                    </a>
-                    <button class="nav__icon nav__cart" aria-label="Cart" onclick="window.location.href='{{ url_for('product_catalog') }}';">
-                        <iconify-icon icon="lucide:shopping-bag"></iconify-icon>
-                    </button>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <main class="container">
+{% block content %}
+    <div class="container">
         <section class="contact">
+            <div class="contact__header">
+                <span class="contact__eyebrow">Get in Touch</span>
+                <h1 class="contact__title">Inquiries & Appointments</h1>
+            </div>
+
             <div class="contact__grid">
                 <div class="contact__info">
-                    <span class="contact__eyebrow">Connect</span>
-                    <h1 class="contact__title">We'd love to hear from you.</h1>
-                    <p class="contact__text">Whether you have a question about our collections, craftsmanship, or simply want to share your experience, our team is here to assist you with the promptness and care you deserve.</p>
-                    
-                    <div class="contact__details">
-                        <div class="contact__detail-item">
-                            <h4>Atelier Address</h4>
-                            <p>12 Savile Row, Mayfair<br>London W1S 3PQ, UK</p>
-                        </div>
-                        <div class="contact__detail-item">
-                            <h4>Inquiries</h4>
-                            <p>concierge@mackkas.com<br>+44 (0) 20 7123 4567</p>
-                        </div>
-                        <div class="contact__detail-item">
-                            <h4>Operating Hours</h4>
-                            <p>Monday — Friday: 10:00 — 18:00<br>Saturday: 11:00 — 17:00</p>
-                        </div>
+                    <div class="info-group">
+                        <h3>London Atelier</h3>
+                        <p>12 Bruton Street<br>Mayfair, London<br>W1J 6QA, United Kingdom</p>
+                    </div>
+
+                    <div class="info-group">
+                        <h3>General Inquiries</h3>
+                        <p>concierge@mackkas.com<br>+44 (0) 20 7123 4567</p>
+                    </div>
+
+                    <div class="info-group">
+                        <h3>Operating Hours</h3>
+                        <p>Monday — Friday<br>10:00 — 18:00 GMT</p>
                     </div>
                 </div>
 
-                <div class="contact__form-wrapper">
-                    <form class="contact__form" id="contactForm">
-                        <div class="form-group">
-                            <label for="name">Full Name</label>
-                            <input type="text" id="name" name="name" placeholder="E.g. Alexander McQueen" required>
+                <div class="contact__form-container">
+                    <form id="contactForm" class="contact__form" onsubmit="handleContactSubmit(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" required>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" placeholder="E.g. alex@example.com" required>
-                        </div>
+
                         <div class="form-group">
                             <label for="subject">Subject</label>
-                            <input type="text" id="subject" name="subject" placeholder="Collection Inquiry" required>
+                            <input type="text" id="subject" required>
                         </div>
+
                         <div class="form-group">
                             <label for="message">Message</label>
-                            <textarea id="message" name="message" placeholder="How can we assist you today?" required></textarea>
+                            <textarea id="message" rows="5" required></textarea>
                         </div>
-                        <button type="submit" class="button button--primary contact__submit">Send Message</button>
+
+                        <button type="submit" class="button button--primary">Send Inquiry</button>
                     </form>
                 </div>
             </div>
         </section>
-    </main>
+    </div>
+{% endblock %}
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer__grid">
-                <div class="footer__brand">
-                    <h3>Mackkas</h3>
-                    <p>Timeless elegance for the modern individual.</p>
-                </div>
-                <div class="footer__col">
-                    <h4>Shop</h4>
-                    <ul class="footer__list">
-                        <li><a href="{{ url_for('product_catalog') }}">All Products</a></li>
-                        <li><a href="{{ url_for('product_catalog') }}">New Arrivals</a></li>
-                        <li><a href="{{ url_for('product_catalog') }}">Featured</a></li>
-                    </ul>
-                </div>
-                <div class="footer__col">
-                    <h4>Support</h4>
-                    <ul class="footer__list">
-                        <li><a href="{{ url_for('shipping_page') }}">Shipping</a></li>
-                        <li><a href="{{ url_for('returns_page') }}">Returns</a></li>
-                        <li><a href="{{ url_for('contact_page') }}">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer__col">
-                    <h4>Follow</h4>
-                    <ul class="footer__list">
-                        <li><a href="#">Instagram</a></li>
-                        <li><a href="#">Facebook</a></li>
-                        <li><a href="#">Twitter</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer__bottom">
-                <p>&copy; 2026 Mackkas. All rights reserved.</p>
-                <div class="footer__legal">
-                    <a href="{{ url_for('privacy_page') }}">Privacy Policy</a>
-                    <a href="{{ url_for('terms_page') }}" style="margin-left: 20px;">Terms of Service</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
+{% block extra_js %}
     <script>
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you for your message. Our concierge team will be in touch shortly.');
-            this.reset();
-        });
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            alert('Your inquiry has been sent. Our concierge team will contact you shortly.');
+            event.target.reset();
+        }
     </script>
-</body>
-</html>
+{% endblock %}

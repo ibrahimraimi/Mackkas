@@ -1,9 +1,6 @@
 const Product_Grid = document.getElementById("productGrid");
 const Cart_Drawer = document.getElementById("cartDrawer");
 const Cart_Overlay = document.getElementById("cartOverlay");
-const Open_Cart_Btn = document.getElementById("openCartBtn");
-const Close_Cart_Btn = document.getElementById("closeCartBtn");
-const Continue_Shopping_Btn = document.getElementById("continueShoppingBtn");
 const Cart_Items_Container = document.getElementById("cartItemsContainer");
 const Cart_Count_Badges = document.querySelectorAll("#cartCountBadge");
 const Cart_Subtotal_Display = document.getElementById("cartSubtotal");
@@ -40,22 +37,13 @@ async function FetchCart() {
 }
 
 function SetupEventListeners() {
-    Open_Cart_Btn.onclick = OpenCart;
-    Close_Cart_Btn.onclick = CloseCart;
-    Cart_Overlay.onclick = CloseCart;
-    Continue_Shopping_Btn.onclick = CloseCart;
+    // Other listeners if any
 }
 
 function OpenCart() {
     Cart_Drawer.classList.remove("close_cart");
     Cart_Overlay.classList.remove("cart_blocker_hide");
     document.body.style.overflow = "hidden";
-}
-
-function CloseCart() {
-    Cart_Drawer.classList.add("close_cart");
-    Cart_Overlay.classList.add("cart_blocker_hide");
-    document.body.style.overflow = "auto";
 }
 
 function RenderProducts(products) {

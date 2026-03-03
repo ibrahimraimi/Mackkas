@@ -1,0 +1,28 @@
+<header class="header">
+    <div class="container">
+        <nav class="nav__content">
+            <ul class="nav__menu">
+                <li><a href="{{ url_for('product_catalog') }}" class="nav__link">Shop</a></li>
+                <li><a href="{{ url_for('product_catalog') }}" class="nav__link">New in</a></li>
+                <li><a href="{{ url_for('about_page') }}" class="nav__link">About</a></li>
+            </ul>
+
+            <a href="/" class="nav__logo">
+                Mackkas
+            </a>
+
+            <div class="nav__actions">
+                <a href="{{ url_for('search_page') }}" class="nav__icon" aria-label="Search">
+                    <iconify-icon icon="lucide:search"></iconify-icon>
+                </a>
+                <a href="{{ url_for('profile_page') }}" class="nav__icon" aria-label="Account">
+                    <iconify-icon icon="lucide:user"></iconify-icon>
+                </a>
+                <button class="nav__icon nav__cart" id="openCartBtn" aria-label="Cart">
+                    <iconify-icon icon="lucide:shopping-bag"></iconify-icon>
+                    <span class="badge" id="cartCountBadge">0</span>
+                </button>
+            </div>
+        </nav>
+    </div>
+</header>

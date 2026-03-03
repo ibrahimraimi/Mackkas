@@ -1,161 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mackkas | Minimalist Luxury</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+{% extends 'base.html' %}
+
+{% block title %}Minimalist Luxury{% endblock %}
+
+{% block extra_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home-page.css') }}">
-    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon/favicon.ico') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/favicon/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon/favicon-16x16.png') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='images/favicon/site.webmanifest') }}">
-</head>
-<body>
-    <header class="header">
-        <div class="container">
-            <nav class="nav__content">
-                <ul class="nav__menu">
-                    <li><a href="{{ url_for('product_catalog') }}" class="nav__link">Shop</a></li>
-                    <li><a href="{{ url_for('product_catalog') }}" class="nav__link">New in</a></li>
-                    <li><a href="{{ url_for('about_page') }}" class="nav__link">About</a></li>
-                </ul>
+{% endblock %}
 
-                <a href="/" class="nav__logo">
-                    Mackkas
+{% block content %}
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero__grid">
+            <div class="hero__item">
+                <img src="{{ url_for('static', filename='images/earrings-collection.png') }}" alt="New Collection" class="hero__image">
+                <div class="hero__content">
+                    <span class="hero__eyebrow">The New Season</span>
+                    <h1 class="hero__title">Timeless Essentials</h1>
+                    <a href="{{ url_for('product_catalog') }}" class="button button--primary">Shop Collection</a>
+                </div>
+            </div>
+            <div class="hero__item">
+                <img src="{{ url_for('static', filename='images/link-bracelet.png') }}" alt="Featured Style" class="hero__image">
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="container">
+            <div class="categories__grid">
+                <a href="{{ url_for('product_catalog') }}" class="category-card">
+                    <img src="{{ url_for('static', filename='images/man-standing-on-suit.jpg') }}" alt="Men" class="category-card__image">
+                    <div class="category-card__content">
+                        <h3 class="category-card__title">Men</h3>
+                        <span class="category-card__count">24 Items</span>
+                    </div>
                 </a>
-
-                <div class="nav__actions">
-                    <a href="{{ url_for('search_page') }}" class="nav__icon" aria-label="Search">
-                        <iconify-icon icon="lucide:search"></iconify-icon>
-                    </a>
-                    <a href="{{ url_for('profile_page') }}" class="nav__icon" aria-label="Account">
-                        <iconify-icon icon="lucide:user"></iconify-icon>
-                    </a>
-                    <button class="nav__icon nav__cart" aria-label="Cart" onclick="window.location.href='{{ url_for('product_catalog') }}';">
-                        <iconify-icon icon="lucide:shopping-bag"></iconify-icon>
-                        <span class="badge">0</span>
-                    </button>
-                </div>
-            </nav>
+                <a href="{{ url_for('product_catalog') }}" class="category-card">
+                    <img src="{{ url_for('static', filename='images/nikhil-uttam.jpg') }}" alt="Women" class="category-card__image">
+                    <div class="category-card__content">
+                        <h3 class="category-card__title">Women</h3>
+                        <span class="category-card__count">32 Items</span>
+                    </div>
+                </a>
+                <a href="{{ url_for('product_catalog') }}" class="category-card">
+                    <img src="{{ url_for('static', filename='images/omega-watch.jpg') }}" alt="Accessories" class="category-card__image">
+                    <div class="category-card__content">
+                        <h3 class="category-card__title">Accessories</h3>
+                        <span class="category-card__count">18 Items</span>
+                    </div>
+                </a>
+                <a href="{{ url_for('product_catalog') }}" class="category-card">
+                    <img src="{{ url_for('static', filename='images/fatemeh-sheklabadi.jpg') }}" alt="New In" class="category-card__image">
+                    <div class="category-card__content">
+                        <h3 class="category-card__title">New Arrivals</h3>
+                        <span class="category-card__count">12 Items</span>
+                    </div>
+                </a>
+            </div>
         </div>
-    </header>
+    </section>
 
-    <main>
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero__grid">
-                <div class="hero__item">
-                    <img src="{{ url_for('static', filename='images/earrings-collection.png') }}" alt="New Collection" class="hero__image">
-                    <div class="hero__content">
-                        <span class="hero__eyebrow">The New Season</span>
-                        <h1 class="hero__title">Timeless Essentials</h1>
-                        <a href="{{ url_for('product_catalog') }}" class="button button--primary">Shop Collection</a>
-                    </div>
-                </div>
-                <div class="hero__item">
-                    <img src="{{ url_for('static', filename='images/link-bracelet.png') }}" alt="Featured Style" class="hero__image">
-                </div>
-            </div>
-        </section>
-
-        <!-- Categories Section -->
-        <section class="categories">
-            <div class="container">
-                <div class="categories__grid">
-                    <a href="{{ url_for('product_catalog') }}" class="category-card">
-                        <img src="{{ url_for('static', filename='images/man-standing-on-suit.jpg') }}" alt="Men" class="category-card__image">
-                        <div class="category-card__content">
-                            <h3 class="category-card__title">Men</h3>
-                            <span class="category-card__count">24 Items</span>
-                        </div>
-                    </a>
-                    <a href="{{ url_for('product_catalog') }}" class="category-card">
-                        <img src="{{ url_for('static', filename='images/nikhil-uttam.jpg') }}" alt="Women" class="category-card__image">
-                        <div class="category-card__content">
-                            <h3 class="category-card__title">Women</h3>
-                            <span class="category-card__count">32 Items</span>
-                        </div>
-                    </a>
-                    <a href="{{ url_for('product_catalog') }}" class="category-card">
-                        <img src="{{ url_for('static', filename='images/omega-watch.jpg') }}" alt="Accessories" class="category-card__image">
-                        <div class="category-card__content">
-                            <h3 class="category-card__title">Accessories</h3>
-                            <span class="category-card__count">18 Items</span>
-                        </div>
-                    </a>
-                    <a href="{{ url_for('product_catalog') }}" class="category-card">
-                        <img src="{{ url_for('static', filename='images/fatemeh-sheklabadi.jpg') }}" alt="New In" class="category-card__image">
-                        <div class="category-card__content">
-                            <h3 class="category-card__title">New Arrivals</h3>
-                            <span class="category-card__count">12 Items</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Story Section -->
-        <section class="editorial" id="about">
-            <div class="container">
-                <div class="editorial__grid">
-                    <img src="{{ url_for('static', filename='images/founders-io.png') }}" alt="Our Story" class="editorial__image">
-                    <div class="editorial__content">
-                        <h2 class="editorial__title">Crafted for the Individual</h2>
-                        <p class="editorial__text">
-                            At Mackkas, we believe that true luxury is found in the details. Our collections are carefully curated to bring you timeless pieces that reflect sophistication and modern elegance.
-                        </p>
-                        <a href="{{ url_for('product_catalog') }}" class="button button--outline">Explore Our Story</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
+    <!-- Story Section -->
+    <section class="editorial" id="about">
         <div class="container">
-            <div class="footer__grid">
-                <div class="footer__brand">
-                    <h3>Mackkas</h3>
-                    <p>Timeless elegance for the modern individual.</p>
-                </div>
-                <div class="footer__col">
-                    <h4>Shop</h4>
-                    <ul class="footer__list">
-                        <li><a href="{{ url_for('product_catalog') }}">All Products</a></li>
-                        <li><a href="{{ url_for('product_catalog') }}">New Arrivals</a></li>
-                        <li><a href="{{ url_for('product_catalog') }}">Featured</a></li>
-                    </ul>
-                </div>
-                <div class="footer__col">
-                    <h4>Support</h4>
-                    <ul class="footer__list">
-                        <li><a href="{{ url_for('shipping_page') }}">Shipping</a></li>
-                        <li><a href="{{ url_for('returns_page') }}">Returns</a></li>
-                        <li><a href="{{ url_for('contact_page') }}">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer__col">
-                    <h4>Follow</h4>
-                    <ul class="footer__list">
-                        <li><a href="#">Instagram</a></li>
-                        <li><a href="#">Facebook</a></li>
-                        <li><a href="#">Twitter</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer__bottom">
-                <p>&copy; 2026 Mackkas. All rights reserved.</p>
-                <div class="footer__legal">
-                    <a href="{{ url_for('privacy_page') }}">Privacy Policy</a>
-                    <a href="{{ url_for('terms_page') }}" style="margin-left: 20px;">Terms of Service</a>
+            <div class="editorial__grid">
+                <img src="{{ url_for('static', filename='images/founders-io.png') }}" alt="Our Story" class="editorial__image">
+                <div class="editorial__content">
+                    <h2 class="editorial__title">Crafted for the Individual</h2>
+                    <p class="editorial__text">
+                        At Mackkas, we believe that true luxury is found in the details. Our collections are carefully curated to bring you timeless pieces that reflect sophistication and modern elegance.
+                    </p>
+                    <a href="{{ url_for('product_catalog') }}" class="button button--outline">Explore Our Story</a>
                 </div>
             </div>
         </div>
-    </footer>
+    </section>
+{% endblock %}
 
+{% block extra_js %}
     <script src="{{ url_for('static', filename='js/home-page.js') }}"></script>
-</body>
-</html>
+{% endblock %}

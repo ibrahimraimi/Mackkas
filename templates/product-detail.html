@@ -1,49 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mackkas | Product Details</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+{% extends 'base.html' %}
+
+{% block title %}Product Details{% endblock %}
+
+{% block extra_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/product-detail.css') }}">
     <!-- We also need the catalog CSS for the cart drawer styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/product-catalog.css') }}">
-    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon/favicon.ico') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/favicon/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon/favicon-16x16.png') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='images/favicon/site.webmanifest') }}">
-</head>
-<body>
-    <header class="header">
-        <div class="container">
-            <nav class="nav__content">
-                <ul class="nav__menu">
-                    <li><a href="{{ url_for('product_catalog') }}" class="nav_link">Shop</a></li>
-                    <li><a href="{{ url_for('product_catalog') }}" class="nav_link">New in</a></li>
-                    <li><a href="{{ url_for('about_page') }}" class="nav_link">About</a></li>  
-                </ul>
+{% endblock %}
 
-                <a href="/" class="nav__logo">Mackkas</a>
-
-                <div class="nav__actions">
-                    <a href="{{ url_for('search_page') }}" class="nav__icon" aria-label="Search">
-                        <iconify-icon icon="lucide:search"></iconify-icon>
-                    </a>
-                    <a href="{{ url_for('profile_page') }}" class="nav__icon" aria-label="Account">
-                        <iconify-icon icon="lucide:user"></iconify-icon>
-                    </a>
-                    <button class="nav__icon nav__cart" id="openCartBtn" aria-label="Cart">
-                        <iconify-icon icon="lucide:shopping-bag"></iconify-icon>
-                        <span class="badge" id="cartCountBadge">0</span>
-                    </button>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <main class="container">
+{% block content %}
+    <div class="container">
         <div id="productDetailContainer">
             <!-- Product details will be dynamically loaded here -->
             <div style="padding: 100px 0; text-align: center;">Loading product details...</div>
@@ -56,74 +22,13 @@
                 <!-- Related products will be loaded here -->
             </div>
         </section>
-    </main>
+    </div>
+{% endblock %}
 
-    <!-- Cart Drawer (Common) -->
-    <div class="cart_blocker_hide" id="cartOverlay"></div>
-    <aside class="cart-drawer close_cart" id="cartDrawer">
-        <div class="cart-drawer__header">
-            <h2 class="cart-drawer__title">Shopping Bag</h2>
-            <button class="close-cart-btn" id="closeCartBtn">
-                <iconify-icon icon="lucide:x"></iconify-icon>
-            </button>
-        </div>
-        <div class="cart-items" id="cartItemsContainer"></div>
-        <div class="cart-drawer__footer">
-            <div class="cart-summary__row">
-                <span>Subtotal</span>
-                <span id="cartSubtotal">$0.00</span>
-            </div>
-            <button class="button button--primary w-full" style="margin-bottom: 15px;">Proceed to Checkout</button>
-            <button class="button button--outline w-full" id="continueShoppingBtn">Continue Shopping</button>
-        </div>
-    </aside>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer__grid">
-                <div class="footer__brand">
-                    <h3>Mackkas</h3>
-                    <p>Timeless elegance for the modern individual.</p>
-                </div>
-                <div class="footer__col">
-                    <h4>Shop</h4>
-                    <ul class="footer__list">
-                        <li><a href="{{ url_for('product_catalog') }}">All Products</a></li>
-                        <li><a href="{{ url_for('product_catalog') }}">New Arrivals</a></li>
-                        <li><a href="{{ url_for('product_catalog') }}">Featured</a></li>
-                    </ul>
-                </div>
-                <div class="footer__col">
-                    <h4>Support</h4>
-                    <ul class="footer__list">
-                        <li><a href="{{ url_for('shipping_page') }}">Shipping</a></li>
-                        <li><a href="{{ url_for('returns_page') }}">Returns</a></li>
-                        <li><a href="{{ url_for('contact_page') }}">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer__col">
-                    <h4>Follow</h4>
-                    <ul class="footer__list">
-                        <li><a href="#">Instagram</a></li>
-                        <li><a href="#">Facebook</a></li>
-                        <li><a href="#">Twitter</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer__bottom">
-                <p>&copy; 2026 Mackkas. All rights reserved.</p>
-                <div class="footer__legal">
-                    <a href="{{ url_for('privacy_page') }}">Privacy Policy</a>
-                    <a href="{{ url_for('terms_page') }}" style="margin-left: 20px;">Terms of Service</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
+{% block extra_js %}
     <!-- Pass the product ID from Flask to JS -->
     <script>
         const CURRENT_PRODUCT_ID = {{ product_id }};
     </script>
     <script src="{{ url_for('static', filename='js/product-detail.js') }}"></script>
-</body>
-</html>
+{% endblock %}

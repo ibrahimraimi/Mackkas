@@ -1,0 +1,25 @@
+<!-- Cart Drawer -->
+<div class="cart_blocker_hide" id="cartOverlay"></div>
+<aside class="cart-drawer close_cart" id="cartDrawer">
+    <div class="cart-drawer__header">
+        <h2 class="cart-drawer__title">Shopping Bag</h2>
+        <button class="close-cart-btn" id="closeCartBtn">
+            <iconify-icon icon="lucide:x"></iconify-icon>
+        </button>
+    </div>
+
+    <div class="cart-items" id="cartItemsContainer">
+        <!-- Cart items will be rendered here -->
+    </div>
+
+    <div class="cart-drawer__footer">
+        <div class="cart-summary__row">
+            <span>Subtotal</span>
+            <span id="cartSubtotal">$0.00</span>
+        </div>
+        <p style="font-size: 10px; color: var(--color-neutral-500); margin-bottom: 20px;">Shipping and taxes calculated at checkout</p>
+        
+        <button class="button button--primary w-full" style="margin-bottom: 15px;">Proceed to Checkout</button>
+        <button class="button button--outline w-full" id="continueShoppingBtn">Continue Shopping</button>
+    </div>
+</aside>

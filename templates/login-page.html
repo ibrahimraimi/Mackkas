@@ -1,19 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mackkas | Sign In</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+{% extends 'base.html' %}
+
+{% block title %}Sign In{% endblock %}
+
+{% block extra_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login-page.css') }}">
-    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon/favicon.ico') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/favicon/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon/favicon-16x16.png') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='images/favicon/site.webmanifest') }}">
-</head>
-<body>
+{% endblock %}
+
+{% block header %}{% endblock %}
+{% block cart %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block content %}
     <div class="split-layout">
         <div class="auth-visual">
             <img src="{{ url_for('static', filename='images/red-wine-gown.png') }}" alt="Mackkas Style" class="auth-visual__img">
@@ -74,7 +71,8 @@
             <span id="errorMsg">Invalid Credentials</span>
         </div>
     </div>
+{% endblock %}
 
+{% block extra_js %}
     <script src="{{ url_for('static', filename='js/login-page.js') }}"></script>
-</body>
-</html>
+{% endblock %}

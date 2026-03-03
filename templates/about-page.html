@@ -1,46 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mackkas | Our Story</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+{% extends 'base.html' %}
+
+{% block title %}Our Story{% endblock %}
+
+{% block extra_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/about-page.css') }}">
-    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon/favicon.ico') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/favicon/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon/favicon-16x16.png') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='images/favicon/site.webmanifest') }}">
-</head>
-<body>
-    <header class="header">
-        <div class="container">
-            <nav class="nav__content">
-                <ul class="nav__menu">
-                    <li><a href="{{ url_for('product_catalog') }}" class="nav_link">Shop</a></li>
-                    <li><a href="{{ url_for('product_catalog') }}" class="nav_link">New in</a></li>
-                    <li><a href="{{ url_for('about_page') }}" class="nav_link">About</a></li>
-                </ul>
+{% endblock %}
 
-                <a href="/" class="nav__logo">Mackkas</a>
-
-                <div class="nav__actions">
-                    <a href="{{ url_for('search_page') }}" class="nav__icon" aria-label="Search">
-                        <iconify-icon icon="lucide:search"></iconify-icon>
-                    </a>
-                    <a href="{{ url_for('profile_page') }}" class="nav__icon" aria-label="Account">
-                        <iconify-icon icon="lucide:user"></iconify-icon>
-                    </a>
-                    <button class="nav__icon nav__cart" aria-label="Cart" onclick="window.location.href='{{ url_for('product_catalog') }}';">
-                        <iconify-icon icon="lucide:shopping-bag"></iconify-icon>
-                    </button>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <main class="container">
+{% block content %}
+    <div class="container">
         <section class="about">
             <div class="about__hero">
                 <span class="about__eyebrow">Our Story</span>
@@ -53,7 +20,7 @@
                 </div>
                 <div class="about__content">
                     <h2 class="about__subtitle">The Atelier</h2>
-                    <p class="about__text">Founded in 2026, Mackkas represents a commitment to unparalleled craftsmanship and minimalist design. We believe that true luxury lies in the details—the choice of fabric, the precision of a stitch, and the timelessness of a silhouette.</p>
+                    <p class="about__text">Founded in 2026, Mackkas represents a commitment to unparalleled craftsmanship and minimalist design. We believe that true luxury is found in the details—the choice of fabric, the precision of a stitch, and the timelessness of a silhouette.</p>
                     <p class="about__text">Our pieces are designed in our London atelier and crafted by skilled artisans using the world's finest sustainable materials.</p>
                 </div>
             </div>
@@ -83,48 +50,5 @@
                 </div>
             </div>
         </section>
-    </main>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer__grid">
-                <div class="footer__brand">
-                    <h3>Mackkas</h3>
-                    <p>Timeless elegance for the modern individual.</p>
-                </div>
-                <div class="footer__col">
-                    <h4>Shop</h4>
-                    <ul class="footer__list">
-                        <li><a href="{{ url_for('product_catalog') }}">All Products</a></li>
-                        <li><a href="{{ url_for('product_catalog') }}">New Arrivals</a></li>
-                        <li><a href="{{ url_for('product_catalog') }}">Featured</a></li>
-                    </ul>
-                </div>
-                <div class="footer__col">
-                    <h4>Support</h4>
-                    <ul class="footer__list">
-                        <li><a href="{{ url_for('shipping_page') }}">Shipping</a></li>
-                        <li><a href="{{ url_for('returns_page') }}">Returns</a></li>
-                        <li><a href="{{ url_for('contact_page') }}">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer__col">
-                    <h4>Follow</h4>
-                    <ul class="footer__list">
-                        <li><a href="#">Instagram</a></li>
-                        <li><a href="#">Facebook</a></li>
-                        <li><a href="#">Twitter</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer__bottom">
-                <p>&copy; 2026 Mackkas. All rights reserved.</p>
-                <div class="footer__legal">
-                    <a href="{{ url_for('privacy_page') }}">Privacy Policy</a>
-                    <a href="{{ url_for('terms_page') }}" style="margin-left: 20px;">Terms of Service</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-</body>
-</html>
+    </div>
+{% endblock %}
