@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home-page.css') }}">
+</head>
+<body>
+    <div class="body_container">
+        <div class="body">
+
+            <div class="nav-bars">
+                <a href="{{ url_for('signup_page') }}">SignUp</a>
+                <a href="{{ url_for('login_page') }}">Login</a>
+                <a href="#about">About Us</a>
+            </div>
+            
+           <div class="logo">
+               <img class="logo_img_hide" src="{{ url_for('static', filename='images/mackkas-brand-logo.png') }}" alt="Mackkas Logo">
+               <h1>MACKKAS </h1>  
+               <em>dress with style...</em>  
+           </div>
+           
+           <div class="category">
+             <div class="img_div">
+                 <div class="img1"> 
+                     <img class="imgs" id="img_1" src="{{ url_for('static', filename='images/formal-brown-suit.jpg') }}" alt="Suits">
+                     <div class="suit_opac"><h1>Suits</h1></div>
+                </div>
+                 <div class="img1"> <img class="imgs" src="{{ url_for('static', filename='images/red-wine-gown.png') }}" alt="Gowns">
+                    <div class="suit_opac"><h1>Gowns</h1></div>
+                </div>
+                 <div class="img1"> <img class="imgs" src="{{ url_for('static', filename='images/leather-handbag-brown.jpg') }}" alt="Bags">
+                    <div class="suit_opac"><h1>Bags</h1></div>
+                </div>
+                 <div class="img1"> <img class="imgs" src="{{ url_for('static', filename='images/stylish-heels-shoes.jpg') }}" alt="Shoes">
+                    <div class="suit_opac"><h1>Shoes</h1></div>
+                </div>
+                 <div class="img1"> <img class="imgs" src="{{ url_for('static', filename='images/gold-black-watch.jpg') }}" alt="Watches">
+                    <div class="suit_opac"><h1>Watches</h1></div>
+                </div>
+                 <div class="img1"> <img class="imgs" src="{{ url_for('static', filename='images/fashion-accessory-others.jpg') }}" alt="Others">
+                    <div class="suit_opac"><h1>Others</h1></div>
+                </div>
+            </div>   
+          </div>
+          <div class="aboutUs" id="about">
+    <div class="about_container">
+        <h2>About Us</h2>
+        <p>
+            Welcome to Mackkas, where luxury meets timeless style.
+        </p>
+
+        <p>
+            At Mackkas, we believe fashion is more than clothing — it is confidence, identity, and presence.
+            Our store was created for individuals who value quality, sophistication, and distinction.
+        </p>
+
+        <ul>
+            <li>Elegant suits crafted for modern gentlemen</li>
+            <li>High-end watches that define status and precision</li>
+            <li>Designer women’s bags that blend beauty with functionality</li>
+            <li>Stylish shoes made for comfort and class</li>
+            <li>Exclusive fashion pieces curated for refined taste</li>
+        </ul>
+
+        <p>
+            Every product in our collection is carefully selected to meet high standards of craftsmanship, durability, and style.
+        </p>
+
+        <p class="mission">
+            We are more than a fashion store. <br>
+            <strong>We are a statement of class.</strong>
+        </p>
+    </div>
+</div>
+    <script src="{{ url_for('static', filename='js/home-page.js') }}"></script>
+ 
+</body>
+</html>
