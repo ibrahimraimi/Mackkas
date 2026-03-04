@@ -5,7 +5,7 @@ import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key-here'  # Change in production
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mackkas.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/mackkas.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Cache control for static assets
