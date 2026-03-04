@@ -40,6 +40,22 @@
   max-width: 400px;
 }
 
+.auth-mobile-logo {
+  text-align: center;
+  margin-bottom: var(--spacing-8);
+}
+
+.auth-mobile-logo .nav__logo {
+  display: inline-block;
+  font-size: var(--text-base); /* Smaller than desktop header */
+}
+
+@media (min-width: 1024px) {
+  .auth-mobile-logo {
+    display: none;
+  }
+}
+
 .auth-form-header {
   margin-bottom: var(--spacing-12);
   text-align: center;

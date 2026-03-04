@@ -13,7 +13,7 @@ Before the overhaul, Mackkas was a "frontend-only" demonstration. While it had a
 
 ## 2. Technical Debt & Issues
 
-The original codebase was characterized by significant "a toy codebase" qualities that hindered scalability and security:
+The original codebase showed signs of poor architectural decisions that negatively impacted scalability and security:
 
 - **Severe Security Vulnerabilities**:
     - **Plain-text Passwords**: User credentials were stored in `sessionStorage`, accessible to any script or person with access to the browser console.
