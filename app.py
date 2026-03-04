@@ -76,7 +76,8 @@ def signup_page():
 
 @app.route('/product/<int:product_id>')
 def product_detail(product_id):
-    return render_template('product-detail.html', product_id=product_id)
+    product = Product.query.get_or_404(product_id)
+    return render_template('product-detail.html', product=product, product_id=product_id)
 
 @app.route('/profile')
 def profile_page():

@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
 
-{% block title %}Product Details{% endblock %}
+{% block title %}{{ product.name }} | Mackkas{% endblock %}
+
+{% block meta_description %}{{ product.description }}{% endblock %}
+
+{% block og_title %}{{ product.name }}{% endblock %}
+{% block og_description %}{{ product.description }}{% endblock %}
+{% block og_image %}{{ url_for('static', filename=product.img1) }}{% endblock %}
+
+{% block twitter_title %}{{ product.name }}{% endblock %}
+{% block twitter_description %}{{ product.description }}{% endblock %}
+{% block twitter_image %}{{ url_for('static', filename=product.img1) }}{% endblock %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/product-detail.css') }}">
