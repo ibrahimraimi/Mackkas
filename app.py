@@ -2,11 +2,25 @@ from flask import Flask, render_template, request, jsonify, session, redirect, u
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key-here'  # Change in production
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/mackkas.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Database configuration
+if os.environ.get('FLASK_ENV') == 'production':
+    # Production: db/mackkas.db (relative to project root)
+    db_path = os.path.join(app.root_path, 'db', 'mackkas.db')
+    # Ensure directory exists
+    os.makedirs(os.path.dirname(db_path), exist_ok=True)
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+else:
+    # Development: Default /instance/mackkas.db (handled by flask-sqlalchemy defaults)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mackkas.db'
 
 # Cache control for static assets
 @app.after_request

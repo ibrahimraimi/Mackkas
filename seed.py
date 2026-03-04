@@ -15,6 +15,9 @@ CATEGORY_MAPPING = {
 
 def seed_database():
     with app.app_context():
+        # Show active database
+        print(f"Seeding database: {app.config['SQLALCHEMY_DATABASE_URI']}")
+        
         # Clear existing products to ensure a fresh seed
         db.create_all()
         print("Clearing existing products...")
@@ -41,6 +44,10 @@ def seed_database():
                 # Image files
                 img1_file = files[i]
                 img2_file = files[i+1] if i+1 < len(files) else ""
+                
+                # Product name
+                product_index = (i // 2) + 1
+                name = f"{mapping['prefix']} {product_index}"
                 
                 # Use webp if available
                 def get_webp_if_exists(rel_path):

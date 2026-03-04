@@ -153,8 +153,6 @@ cython_debug/
 .vscode/
 
 # Project Specific
-mackkas.db
-*.db
 rename-project-files.py
 rename_images.py
 rename-images.py
