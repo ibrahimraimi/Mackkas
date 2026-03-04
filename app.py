@@ -89,6 +89,14 @@ def shipping_page():
 def returns_page():
     return render_template('returns-page.html')
 
+@app.route('/size-guide')
+def size_guide():
+    return render_template('size-guide.html')
+
+@app.route('/care-instructions')
+def care_instructions():
+    return render_template('care-instructions.html')
+
 @app.route('/privacy')
 def privacy_page():
     return render_template('privacy-page.html')

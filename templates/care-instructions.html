@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Care Instructions{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/legal-pages.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <article class="legal">
+            <header class="legal__header">
+                <span class="legal__eyebrow">Longevity</span>
+                <h1 class="legal__title">Care Instructions</h1>
+            </header>
+            
+            <div class="legal__content">
+                <section>
+                    <h2>Preserving Your Pieces</h2>
+                    <p>At Mackkas, we craft our jewelry and garments to last. Proper care ensures your items remain as beautiful as the day you received them.</p>
+                </section>
+
+                <section>
+                    <h2>Garment Care</h2>
+                    <ul>
+                        <li><strong>Cotton:</strong> Machine wash cold with like colors. Tumble dry low or hang to dry to prevent shrinking.</li>
+                        <li><strong>Linen:</strong> Hand wash or machine wash on a delicate cycle. Reshape and lay flat to dry. Iron while slightly damp.</li>
+                        <li><strong>Wool/Cashmere:</strong> Hand wash cold with gentle detergent. Never wring or twist. Lay flat on a towel to dry.</li>
+                        <li><strong>Silk:</strong> Dry clean recommended. If hand washing, use cold water and silk-safe detergent.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Jewelry Care</h2>
+                    <ul>
+                        <li><strong>Silver & Gold:</strong> Clean with a soft lint-free cloth. Avoid contact with harsh chemicals, perfumes, and lotions.</li>
+                        <li><strong>Gemstones:</strong> Wipe with a damp cloth after wearing. Store in a cool, dry place away from direct sunlight.</li>
+                        <li><strong>Storage:</strong> Keep your jewelry in individual pouches or a lined jewelry box to prevent scratching and tangling.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>General Tips</h2>
+                    <p>Always refer to the specific care label attached to your garment for detailed instructions.</p>
+                    <ul>
+                        <li>Wash less frequently to extend the life of your clothes.</li>
+                        <li>Use eco-friendly detergents to protect both your garments and the environment.</li>
+                        <li>Repair minor damages early to prevent them from becoming larger issues.</li>
+                    </ul>
+                </section>
+            </div>
+        </article>
+    </div>
+{% endblock %}
