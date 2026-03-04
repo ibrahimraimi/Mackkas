@@ -307,6 +307,16 @@ def get_products():
         'has_prev': pagination.has_prev
     })
 
+@app.route('/api/products/meta', methods=['GET'])
+def get_products_meta():
+    categories = db.session.query(Product.category).distinct().all()
+    cloth_types = db.session.query(Product.cloth_type).distinct().all()
+    
+    return jsonify({
+        'categories': [c[0] for c in categories if c[0]],
+        'cloth_types': [t[0] for t in cloth_types if t[0]]
+    })
+
 @app.route('/api/products/<int:id>', methods=['GET'])
 def get_product(id):
     p = Product.query.get_or_404(id)

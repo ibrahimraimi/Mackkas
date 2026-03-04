@@ -38,9 +38,9 @@ async function Init() {
     if (params.has('maxPrice')) Active_Filters.maxPrice = parseFloat(params.get('maxPrice'));
     if (params.has('clothType')) Active_Filters.clothType = params.get('clothType').split(',');
 
+    await SetupCategories(); // Fetch filter options first
     await FetchProducts();
     await FetchCart();
-    SetupCategories();
 }
 
 async function FetchProducts() {
@@ -83,29 +83,35 @@ async function FetchCart() {
     }
 }
 
-function SetupCategories() {
-    const categories = [...new Set(All_Products.map(p => p.category))];
-    const clothTypes = [...new Set(All_Products.map(p => p.cloth))];
+async function SetupCategories() {
+    try {
+        const response = await fetch('/api/products/meta');
+        const data = await response.json();
+        const categories = data.categories;
+        const clothTypes = data.cloth_types;
 
-    // Render pills
-    if (Category_Pill_List) {
-        Category_Pill_List.innerHTML = `
-            <div class="category-pill active" onclick="SetCategory(null, this)">All</div>
-            ${categories.map(cat => `<div class="category-pill" onclick="SetCategory('${cat}', this)">${cat}</div>`).join("")}
-        `;
-    }
+        // Render pills
+        if (Category_Pill_List) {
+            Category_Pill_List.innerHTML = `
+                <div class="category-pill ${!Active_Filters.category ? 'active' : ''}" onclick="SetCategory(null, this)">All</div>
+                ${categories.map(cat => `<div class="category-pill ${Active_Filters.category === cat ? 'active' : ''}" onclick="SetCategory('${cat}', this)">${cat}</div>`).join("")}
+            `;
+        }
 
-    // Render filter drawer options
-    if (Category_Filter_Options) {
-        Category_Filter_Options.innerHTML = categories.map(cat => `
-            <div class="filter-option" onclick="ToggleFilter('category', '${cat}', this)">${cat}</div>
-        `).join("");
-    }
+        // Render filter drawer options
+        if (Category_Filter_Options) {
+            Category_Filter_Options.innerHTML = categories.map(cat => `
+                <div class="filter-option ${Active_Filters.category === cat ? 'active' : ''}" onclick="ToggleFilter('category', '${cat}', this)">${cat}</div>
+            `).join("");
+        }
 
-    if (Cloth_Type_Filter_Options) {
-        Cloth_Type_Filter_Options.innerHTML = clothTypes.map(type => `
-            <div class="filter-option" onclick="ToggleFilter('clothType', '${type}', this)">${type}</div>
-        `).join("");
+        if (Cloth_Type_Filter_Options) {
+            Cloth_Type_Filter_Options.innerHTML = clothTypes.map(type => `
+                <div class="filter-option ${Active_Filters.clothType.includes(type) ? 'active' : ''}" onclick="ToggleFilter('clothType', '${type}', this)">${type}</div>
+            `).join("");
+        }
+    } catch (error) {
+        console.error("Error setting up categories:", error);
     }
 }
 
