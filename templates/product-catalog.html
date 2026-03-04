@@ -41,6 +41,46 @@
             <!-- Products will be dynamically rendered here -->
         </div>
     </div>
+
+    <!-- Filter Drawer -->
+    <div class="cart_blocker cart_blocker_hide" id="filterOverlay" onclick="ToggleFilterMenu()"></div>
+    <div class="cart-drawer close_cart" id="filterDrawer" style="left: auto; right: 0; transform: translateX(100%); transition: transform 0.4s ease;">
+        <div class="cart-drawer__header">
+            <h2 class="cart-drawer__title">Filter & Sort</h2>
+            <button class="nav__icon" onclick="ToggleFilterMenu()">
+                <iconify-icon icon="lucide:x"></iconify-icon>
+            </button>
+        </div>
+        
+        <div class="cart-drawer__content" style="padding: 24px;">
+            <div class="filter-section">
+                <h4 class="filter-section__title">Categories</h4>
+                <div class="filter-options" id="categoryFilterOptions">
+                    <!-- Dynamic categories -->
+                </div>
+            </div>
+
+            <div class="filter-section" style="margin-top: 32px;">
+                <h4 class="filter-section__title">Cloth Types</h4>
+                <div class="filter-options" id="clothTypeFilterOptions">
+                    <!-- Dynamic cloth types -->
+                </div>
+            </div>
+
+            <div class="filter-section" style="margin-top: 32px;">
+                <h4 class="filter-section__title">Price Range</h4>
+                <div class="price-range-inputs" style="display: flex; gap: 12px; margin-top: 12px;">
+                    <input type="number" id="minPrice" placeholder="Min" class="filter-input" style="width: 50%; padding: 8px; border: 1px solid #eee;">
+                    <input type="number" id="maxPrice" placeholder="Max" class="filter-input" style="width: 50%; padding: 8px; border: 1px solid #eee;">
+                </div>
+            </div>
+
+            <div class="filter-actions" style="margin-top: 40px; display: flex; flex-direction: column; gap: 12px;">
+                <button class="button button--primary" onclick="ApplyFilters()">Apply Filters</button>
+                <button class="button" style="border: 1px solid #000; background: none;" onclick="ResetFilters()">Reset All</button>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block extra_js %}

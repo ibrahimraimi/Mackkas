@@ -211,11 +211,11 @@ def get_products():
         'name': p.name,
         'desc': p.description,
         'Price': p.price,
-        'price': f'${p.price}',
+        'price': f'${p.price:,.2f}',
         'category': p.category,
         'cloth': p.cloth_type,
-        'img1': f'/static/images/{p.img1.split("/")[-1]}',
-        'img2': f'/static/images/{p.img2.split("/")[-1]}' if p.img2 else '',
+        'img1': url_for('static', filename=p.img1),
+        'img2': url_for('static', filename=p.img2) if p.img2 else '',
         'buy': 'Add to Cart',
         'qty': 1
     } for p in products])
@@ -228,11 +228,11 @@ def get_product(id):
         'name': p.name,
         'desc': p.description,
         'Price': p.price,
-        'price': f'${p.price}',
+        'price': f'${p.price:,.2f}',
         'category': p.category,
         'cloth': p.cloth_type,
-        'img1': f'/static/images/{p.img1.split("/")[-1]}',
-        'img2': f'/static/images/{p.img2.split("/")[-1]}' if p.img2 else '',
+        'img1': url_for('static', filename=p.img1),
+        'img2': url_for('static', filename=p.img2) if p.img2 else '',
         'buy': 'Add to Cart',
         'qty': 1
     })
@@ -248,7 +248,7 @@ def get_cart():
         'price': f'${item.product.price}',
         'Price': item.product.price,
         'qty': item.quantity,
-        'img1': f'/static/images/{item.product.img1}'
+        'img1': url_for('static', filename=item.product.img1)
     } for item in cart_items])
 
 @app.route('/api/cart', methods=['POST'])
