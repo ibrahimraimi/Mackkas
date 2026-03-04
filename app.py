@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import desc
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from dotenv import load_dotenv
@@ -235,7 +236,39 @@ def get_user_activity():
 
 @app.route('/api/products', methods=['GET'])
 def get_products():
-    products = Product.query.all()
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 12, type=int)
+    category = request.args.get('category')
+    cloth_type = request.args.getlist('cloth_type')
+    min_price = request.args.get('min_price', type=float)
+    max_price = request.args.get('max_price', type=float)
+    sort = request.args.get('sort', 'featured')
+
+    query = Product.query
+
+    if category:
+        query = query.filter(Product.category == category)
+    
+    if cloth_type:
+        query = query.filter(Product.cloth_type.in_(cloth_type))
+    
+    if min_price is not None:
+        query = query.filter(Product.price >= min_price)
+    
+    if max_price is not None:
+        query = query.filter(Product.price <= max_price)
+
+    # Sorting
+    if sort == 'price-low':
+        query = query.order_by(Product.price.asc())
+    elif sort == 'price-high':
+        query = query.order_by(Product.price.desc())
+    else:
+        query = query.order_by(Product.id.asc())
+
+    pagination = query.paginate(page=page, per_page=per_page, error_out=False)
+    
+    products = pagination.items
     result = []
     for p in products:
         # Check for webp version
@@ -260,11 +293,19 @@ def get_products():
             'category': p.category,
             'cloth': p.cloth_type,
             'img1': url_for('static', filename=img1),
-            'img2': url_for('static', filename=img2) if img2 else '',
+            'img2': url_for('static', filename=img2) if img2 else url_for('static', filename=img1),
             'buy': 'Add to Cart',
             'qty': 1
         })
-    return jsonify(result)
+
+    return jsonify({
+        'items': result,
+        'total': pagination.total,
+        'pages': pagination.pages,
+        'current_page': pagination.page,
+        'has_next': pagination.has_next,
+        'has_prev': pagination.has_prev
+    })
 
 @app.route('/api/products/<int:id>', methods=['GET'])
 def get_product(id):

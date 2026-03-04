@@ -22,21 +22,52 @@ let Active_Filters = {
     category: null,
     clothType: [],
     minPrice: null,
-    maxPrice: null
+    maxPrice: null,
+    sort: 'featured',
+    page: 1
 };
 
 // Initialize
 async function Init() {
+    // Load state from URL
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('category')) Active_Filters.category = params.get('category');
+    if (params.has('sort')) Active_Filters.sort = params.get('sort');
+    if (params.has('page')) Active_Filters.page = parseInt(params.get('page'));
+    if (params.has('minPrice')) Active_Filters.minPrice = parseFloat(params.get('minPrice'));
+    if (params.has('maxPrice')) Active_Filters.maxPrice = parseFloat(params.get('maxPrice'));
+    if (params.has('clothType')) Active_Filters.clothType = params.get('clothType').split(',');
+
     await FetchProducts();
     await FetchCart();
     SetupCategories();
-    RenderProducts(All_Products);
 }
 
 async function FetchProducts() {
     try {
-        const response = await fetch('/api/products');
-        All_Products = await response.json();
+        const queryParams = new URLSearchParams();
+        if (Active_Filters.category) queryParams.set('category', Active_Filters.category);
+        if (Active_Filters.sort) queryParams.set('sort', Active_Filters.sort);
+        if (Active_Filters.page) queryParams.set('page', Active_Filters.page);
+        if (Active_Filters.minPrice) queryParams.set('min_price', Active_Filters.minPrice);
+        if (Active_Filters.maxPrice) queryParams.set('max_price', Active_Filters.maxPrice);
+        Active_Filters.clothType.forEach(type => queryParams.append('cloth_type', type));
+
+        const response = await fetch(`/api/products?${queryParams.toString()}`);
+        const data = await response.json();
+        
+        All_Products = data.items;
+        Pagination_Data = {
+            total: data.total,
+            pages: data.pages,
+            current_page: data.current_page,
+            has_next: data.has_next,
+            has_prev: data.has_prev
+        };
+
+        RenderProducts(All_Products);
+        RenderPagination();
+        UpdateURL();
     } catch (error) {
         console.error("Error fetching products:", error);
     }
@@ -87,6 +118,7 @@ function ToggleFilterMenu() {
 
 function SetCategory(cat, el) {
     Active_Filters.category = cat;
+    Active_Filters.page = 1; // Reset to page 1
     
     // Update pills UI
     document.querySelectorAll(".category-pill").forEach(p => p.classList.remove("active"));
@@ -94,7 +126,7 @@ function SetCategory(cat, el) {
 
     Current_Category_Title.textContent = cat ? `${cat.charAt(0).toUpperCase() + cat.slice(1)} Collection` : "All Collection";
     
-    ApplyFilters();
+    FetchProducts();
 }
 
 function ToggleFilter(type, value, el) {
@@ -111,17 +143,9 @@ function ToggleFilter(type, value, el) {
 function ApplyFilters() {
     Active_Filters.minPrice = Min_Price_Input.value ? parseFloat(Min_Price_Input.value) : null;
     Active_Filters.maxPrice = Max_Price_Input.value ? parseFloat(Max_Price_Input.value) : null;
+    Active_Filters.page = 1; // Reset to page 1
 
-    let filtered = All_Products.filter(product => {
-        const matchesCategory = !Active_Filters.category || product.category === Active_Filters.category;
-        const matchesCloth = Active_Filters.clothType.length === 0 || Active_Filters.clothType.includes(product.cloth);
-        const matchesMinPrice = !Active_Filters.minPrice || product.Price >= Active_Filters.minPrice;
-        const matchesMaxPrice = !Active_Filters.maxPrice || product.Price <= Active_Filters.maxPrice;
-        
-        return matchesCategory && matchesCloth && matchesMinPrice && matchesMaxPrice;
-    });
-
-    RenderProducts(filtered);
+    FetchProducts();
     
     if (Filter_Drawer.classList.contains("open_filters")) {
         ToggleFilterMenu();
@@ -129,7 +153,7 @@ function ApplyFilters() {
 }
 
 function ResetFilters() {
-    Active_Filters = { category: null, clothType: [], minPrice: null, maxPrice: null };
+    Active_Filters = { category: null, clothType: [], minPrice: null, maxPrice: null, sort: 'featured', page: 1 };
     Min_Price_Input.value = "";
     Max_Price_Input.value = "";
     document.querySelectorAll(".filter-option").forEach(opt => opt.classList.remove("active"));
@@ -138,7 +162,7 @@ function ResetFilters() {
         document.querySelector(".category-pill").classList.add("active");
     }
     Current_Category_Title.textContent = "All Collection";
-    RenderProducts(All_Products);
+    FetchProducts();
 }
 
 function RenderProducts(products) {
@@ -166,7 +190,64 @@ function RenderProducts(products) {
         </div>
     `).join("");
     
-    Product_Count_Text.textContent = `${products.length} Items`;
+    Product_Count_Text.textContent = `${Pagination_Data.total} Items`;
+}
+
+function RenderPagination() {
+    const container = document.getElementById("paginationControls");
+    if (!container) return;
+
+    if (Pagination_Data.pages <= 1) {
+        container.innerHTML = "";
+        return;
+    }
+
+    let html = `
+        <div class="pagination">
+            <button class="page-btn ${!Pagination_Data.has_prev ? 'disabled' : ''}" 
+                    onclick="ChangePage(${Pagination_Data.current_page - 1})" 
+                    ${!Pagination_Data.has_prev ? 'disabled' : ''}>
+                <iconify-icon icon="lucide:chevron-left"></iconify-icon>
+            </button>
+    `;
+
+    for (let i = 1; i <= Pagination_Data.pages; i++) {
+        html += `
+            <button class="page-btn ${i === Pagination_Data.current_page ? 'active' : ''}" 
+                    onclick="ChangePage(${i})">${i}</button>
+        `;
+    }
+
+    html += `
+            <button class="page-btn ${!Pagination_Data.has_next ? 'disabled' : ''}" 
+                    onclick="ChangePage(${Pagination_Data.current_page + 1})" 
+                    ${!Pagination_Data.has_next ? 'disabled' : ''}>
+                <iconify-icon icon="lucide:chevron-right"></iconify-icon>
+            </button>
+        </div>
+    `;
+
+    container.innerHTML = html;
+}
+
+function ChangePage(page) {
+    if (page < 1 || page > Pagination_Data.pages) return;
+    Active_Filters.page = page;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    FetchProducts();
+}
+
+function UpdateURL() {
+    const params = new URLSearchParams();
+    if (Active_Filters.category) params.set('category', Active_Filters.category);
+    if (Active_Filters.sort !== 'featured') params.set('sort', Active_Filters.sort);
+    if (Active_Filters.page > 1) params.set('page', Active_Filters.page);
+    if (Active_Filters.minPrice) params.set('minPrice', Active_Filters.minPrice);
+    if (Active_Filters.maxPrice) params.set('maxPrice', Active_Filters.maxPrice);
+    if (Active_Filters.clothType.length > 0) params.set('clothType', Active_Filters.clothType.join(','));
+
+    const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+    window.history.pushState({ path: newUrl }, '', newUrl);
 }
 
 function OpenCart() {
@@ -248,12 +329,9 @@ async function SyncCart() {
 }
 
 function HandleSort(criteria) {
-    if (criteria === 'price-low') {
-        All_Products.sort((a, b) => a.Price - b.Price);
-    } else if (criteria === 'price-high') {
-        All_Products.sort((a, b) => b.Price - a.Price);
-    }
-    ApplyFilters(); // Re-render with current filters applied to sorted list
+    Active_Filters.sort = criteria;
+    Active_Filters.page = 1; // Reset to page 1
+    FetchProducts();
 }
 
 Init();
