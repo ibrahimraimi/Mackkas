@@ -28,6 +28,10 @@ def create_app():
         app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{os.path.abspath(db_path)}'
     else:
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../instance/mackkas.db'
+    
+    # Upload configuration
+    app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, '../static/uploads/products')
+    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
     # Initialize extensions
     db.init_app(app)
