@@ -19,22 +19,20 @@
             <div class="footer__col">
                 <h4>Shop</h4>
                 <ul class="footer__list">
-                    <li><a href="{{ url_for('product_catalog') }}">New In</a></li>
-                    <li><a href="{{ url_for('product_catalog') }}">Men</a></li>
-                    <li><a href="{{ url_for('product_catalog') }}">Women</a></li>
-                    <li><a href="{{ url_for('product_catalog') }}">Bag</a></li>
-                    <li><a href="{{ url_for('product_catalog') }}">Shoes</a></li>
+                    <li><a href="{{ url_for('main.product_catalog') }}">New In</a></li>
+                    <li><a href="{{ url_for('main.product_catalog') }}">Shop All</a></li>
+                    <li><a href="{{ url_for('main.about_page') }}">Our Story</a></li>
+                    <li><a href="{{ url_for('main.contact_page') }}">Support</a></li>
                 </ul>
             </div>
             
             <div class="footer__col">
                 <h4>Support</h4>
                 <ul class="footer__list">
-                    <li><a href="{{ url_for('size_guide') }}">Size Guide</a></li>
-                    <li><a href="{{ url_for('care_instructions') }}">Care Instructions</a></li>
-                    <li><a href="{{ url_for('returns_page') }}">Returns</a></li>
-                    <li><a href="{{ url_for('shipping_page') }}">Shipping</a></li>
-                    <li><a href="{{ url_for('contact_page') }}">Contact</a></li>
+                    <li><a href="{{ url_for('main.size_guide') }}">Size Guide</a></li>
+                    <li><a href="{{ url_for('main.shipping_page') }}">Shipping & Delivery</a></li>
+                    <li><a href="{{ url_for('main.returns_page') }}">Returns & Exchanges</a></li>
+                    <li><a href="{{ url_for('main.care_instructions') }}">Care Instructions</a></li>
                 </ul>
             </div>
             
@@ -51,8 +49,8 @@
         <div class="footer__bottom">
             <p>&copy; 2026 Mackkas. All rights reserved.</p>
             <div class="footer__legal">
-                <a href="{{ url_for('privacy_page') }}">Privacy Policy</a>
-                <a href="{{ url_for('terms_page') }}">Terms of Service</a>
+                <a href="{{ url_for('main.privacy_page') }}">Privacy Policy</a>
+                <a href="{{ url_for('main.terms_page') }}">Terms of Service</a>
             </div>
         </div>
     </div>

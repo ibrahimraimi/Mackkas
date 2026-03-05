@@ -8,20 +8,20 @@
             </div>
 
             <ul class="nav__menu desktop-only">
-                <li><a href="{{ url_for('product_catalog') }}" class="nav__link">Shop</a></li>
-                <li><a href="{{ url_for('product_catalog') }}" class="nav__link">New in</a></li>
-                <li><a href="{{ url_for('about_page') }}" class="nav__link">About</a></li>
+                <li><a href="{{ url_for('main.product_catalog') }}" class="nav__link">Shop</a></li>
+                <li><a href="{{ url_for('main.product_catalog') }}" class="nav__link">New in</a></li>
+                <li><a href="{{ url_for('main.about_page') }}" class="nav__link">About</a></li>
             </ul>
 
-            <a href="/" class="nav__logo">
+            <a href="{{ url_for('main.index') }}" class="nav__logo">
                 Mackkas
             </a>
 
             <div class="nav__actions">
-                <a href="{{ url_for('search_page') }}" class="nav__icon desktop-only" aria-label="Search">
+                <a href="{{ url_for('main.search_page') }}" class="nav__icon desktop-only" aria-label="Search">
                     <iconify-icon icon="lucide:search"></iconify-icon>
                 </a>
-                <a href="{{ url_for('profile_page') }}" class="nav__icon" aria-label="Account">
+                <a href="{{ url_for('main.profile_page') }}" class="nav__icon" aria-label="Account">
                     <iconify-icon icon="lucide:user"></iconify-icon>
                 </a>
                 <button class="nav__icon nav__cart" id="openCartBtn" aria-label="Cart">
@@ -35,13 +35,13 @@
     <!-- Mobile Navigation Drawer -->
     <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu__header">
-            <a href="/" class="nav__logo">Mackkas</a>
+            <a href="{{ url_for('main.index') }}" class="nav__logo">Mackkas</a>
             <button class="nav__icon" id="closeMobileMenu" aria-label="Close Menu">
                 <iconify-icon icon="lucide:x"></iconify-icon>
             </button>
         </div>
         <div class="mobile-menu__search">
-            <form action="{{ url_for('search_page') }}" method="GET">
+            <form action="{{ url_for('main.search_page') }}" method="GET">
                 <input type="text" name="q" placeholder="Search our jewelry" class="mobile-menu__search-input">
                 <button type="submit" class="mobile-menu__search-btn">
                     <iconify-icon icon="lucide:search"></iconify-icon>
@@ -49,10 +49,10 @@
             </form>
         </div>
         <ul class="mobile-menu__list">
-            <li><a href="{{ url_for('product_catalog') }}" class="mobile-menu__link">Shop All</a></li>
-            <li><a href="{{ url_for('product_catalog') }}" class="mobile-menu__link">New Arrivals</a></li>
-            <li><a href="{{ url_for('about_page') }}" class="mobile-menu__link">Our Story</a></li>
-            <li><a href="{{ url_for('contact_page') }}" class="mobile-menu__link">Contact</a></li>
+            <li><a href="{{ url_for('main.product_catalog') }}" class="mobile-menu__link">Shop All</a></li>
+            <li><a href="{{ url_for('main.product_catalog') }}" class="mobile-menu__link">New Arrivals</a></li>
+            <li><a href="{{ url_for('main.about_page') }}" class="mobile-menu__link">Our Story</a></li>
+            <li><a href="{{ url_for('main.contact_page') }}" class="mobile-menu__link">Contact</a></li>
         </ul>
         <div class="mobile-menu__footer">
             <div class="mobile-menu__social">

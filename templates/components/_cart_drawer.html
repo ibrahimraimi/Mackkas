@@ -19,7 +19,7 @@
         </div>
         <p style="font-size: 10px; color: var(--color-neutral-500); margin-bottom: 20px;">Shipping and taxes calculated at checkout</p>
         
-        <button class="button button--primary w-full" style="margin-bottom: 15px;" onclick="window.location.href='/checkout'">Proceed to Checkout</button>
+        <button class="button button--primary w-full" style="margin-bottom: 15px;" onclick="window.location.href='{{ url_for('main.checkout_page') }}'">Proceed to Checkout</button>
         <button class="button button--outline w-full" id="continueShoppingBtn">Continue Shopping</button>
     </div>
 </aside>
