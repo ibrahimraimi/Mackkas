@@ -3,6 +3,7 @@
 {% block title %}Manage Products | Mackkas Admin{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-products.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -56,5 +57,35 @@
             </tbody>
         </table>
     </div>
+
+    {% if pagination and pagination.pages > 1 %}
+    <div class="pagination-controls">
+        <div class="pagination">
+            {% if pagination.has_prev %}
+            <a href="{{ url_for('admin.products', page=pagination.prev_num) }}" class="page-btn">&laquo;</a>
+            {% else %}
+            <span class="page-btn disabled">&laquo;</span>
+            {% endif %}
+
+            {% for page_num in pagination.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if page_num %}
+                    {% if page_num == pagination.page %}
+                    <span class="page-btn active">{{ page_num }}</span>
+                    {% else %}
+                    <a href="{{ url_for('admin.products', page=page_num) }}" class="page-btn">{{ page_num }}</a>
+                    {% endif %}
+                {% else %}
+                    <span class="page-btn disabled">...</span>
+                {% endif %}
+            {% endfor %}
+
+            {% if pagination.has_next %}
+            <a href="{{ url_for('admin.products', page=pagination.next_num) }}" class="page-btn">&raquo;</a>
+            {% else %}
+            <span class="page-btn disabled">&raquo;</span>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

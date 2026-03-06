@@ -50,8 +50,9 @@ def dashboard():
 @admin_bp.route('/products')
 @admin_required
 def products():
-    all_products = Product.query.order_by(Product.id.desc()).all()
-    return render_template('admin/products.html', products=all_products)
+    page = request.args.get('page', 1, type=int)
+    pagination = Product.query.order_by(Product.id.desc()).paginate(page=page, per_page=12, error_out=False)
+    return render_template('admin/products.html', products=pagination.items, pagination=pagination)
 
 @admin_bp.route('/products/add', methods=['GET', 'POST'])
 @admin_required

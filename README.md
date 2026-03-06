@@ -86,4 +86,4 @@ Detailed documentation is available in the [`docs/`](docs/README.md) directory:
 ## Tech Stack
 - **Backend:** Python + Flask + SQLAlchemy
 - **Frontend:** HTML5 + CSS3 + Vanilla JS
-- **Database:** SQLite
+- **Database:** PostgreSQL
