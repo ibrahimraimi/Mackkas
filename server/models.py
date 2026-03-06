@@ -17,15 +17,23 @@ class Product(db.Model):
     product_type = db.Column(db.String(100))
     primary_image = db.Column(db.String(500))
     secondary_image = db.Column(db.String(500))
+    primary_image_data = db.Column(db.LargeBinary)
+    secondary_image_data = db.Column(db.LargeBinary)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     @property
     def primary_url(self):
+        if self.primary_image_data:
+            from flask import url_for
+            return url_for('products.get_product_image', id=self.id, type='primary', _external=True)
         return self._resolve_image_url(self.primary_image)
 
     @property
     def secondary_url(self):
+        if self.secondary_image_data:
+            from flask import url_for
+            return url_for('products.get_product_image', id=self.id, type='secondary', _external=True)
         return self._resolve_image_url(self.secondary_image)
 
     def _resolve_image_url(self, image_path):

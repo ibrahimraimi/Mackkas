@@ -137,3 +137,32 @@ def get_related_products(id):
             'img1': p.primary_url
         })
     return jsonify(result)
+
+@products_bp.route('/api/products/image/<int:id>/<type>')
+def get_product_image(id, type):
+    p = Product.query.get_or_404(id)
+    if type == 'primary':
+        data = p.primary_image_data
+        filename = p.primary_image
+    else:
+        data = p.secondary_image_data
+        filename = p.secondary_image
+    
+    if not data:
+        # Fallback to local file if path exists but no data in DB yet
+        if filename:
+            from flask import send_from_directory
+            return send_from_directory(current_app.static_folder, filename)
+        return "Not found", 404
+    
+    import io
+    from flask import send_file
+    import mimetypes
+    
+    mimetype = mimetypes.guess_type(filename or 'image.jpg')[0] or 'image/jpeg'
+    
+    return send_file(
+        io.BytesIO(data),
+        mimetype=mimetype,
+        download_name=filename or f'product_{id}_{type}.jpg'
+    )

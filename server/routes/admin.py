@@ -23,20 +23,18 @@ def admin_required(f):
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'gif', 'webp', 'avif'}
 
-def save_upload(file, folder):
+def save_upload(file):
     if not file or not file.filename:
-        return None
+        return None, None
         
     if allowed_file(file.filename):
         filename = secure_filename(file.filename)
         filename = f"{int(time.time())}_{filename}"
         
-        os.makedirs(folder, exist_ok=True)
-        save_path = os.path.join(folder, filename)
-        file.save(save_path)
-        
-        return f"images/{filename}"
-    return None
+        # We don't save to disk anymore, just return filename and data
+        data = file.read()
+        return filename, data
+    return None, None
 
 @admin_bp.route('/')
 @admin_required
@@ -76,8 +74,8 @@ def add_product():
         img1_file = request.files.get('img1')
         img2_file = request.files.get('img2')
         
-        img1_path = save_upload(img1_file, current_app.config['UPLOAD_FOLDER'])
-        img2_path = save_upload(img2_file, current_app.config['UPLOAD_FOLDER'])
+        img1_path, img1_data = save_upload(img1_file)
+        img2_path, img2_data = save_upload(img2_file)
 
         new_product = Product(
             name=name,
@@ -86,7 +84,9 @@ def add_product():
             category=category,
             product_type=product_type,
             primary_image=img1_path or 'images/placeholder.jpg',
-            secondary_image=img2_path
+            primary_image_data=img1_data,
+            secondary_image=img2_path,
+            secondary_image_data=img2_data
         )
         db.session.add(new_product)
         db.session.commit()
@@ -121,13 +121,15 @@ def edit_product(id):
         img1_file = request.files.get('img1')
         img2_file = request.files.get('img2')
         
-        new_img1 = save_upload(img1_file, current_app.config['UPLOAD_FOLDER'])
+        new_img1, img1_data = save_upload(img1_file)
         if new_img1:
             product.primary_image = new_img1
+            product.primary_image_data = img1_data
             
-        new_img2 = save_upload(img2_file, current_app.config['UPLOAD_FOLDER'])
+        new_img2, img2_data = save_upload(img2_file)
         if new_img2:
             product.secondary_image = new_img2
+            product.secondary_image_data = img2_data
         
         db.session.commit()
         return redirect(url_for('admin.products'))
