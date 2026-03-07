@@ -523,6 +523,33 @@ section {
   border: none;
   cursor: pointer;
   font-size: 14px;
+  color: var(--color-neutral-600);
+  transition: color var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity-btn:hover {
+  color: var(--color-black);
+}
+
+.cart-item__remove {
+  background: none;
+  border: none;
+  color: var(--color-neutral-400);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  margin-top: 8px;
+  padding: 0;
+  transition: color var(--transition-base);
+  text-decoration: underline;
+}
+
+.cart-item__remove:hover {
+  color: var(--color-error);
 }
 
 .cart-drawer__footer {

@@ -201,3 +201,24 @@
         position: static;
     }
 }
+
+/* Custom styles for checkout-specific quantity and remove */
+.checkout-item__details .cart-item__quantity {
+    background: var(--color-neutral-100);
+    border-color: var(--color-neutral-200);
+    gap: 8px;
+    padding: 2px 8px;
+    height: 30px !important;
+}
+
+.checkout-item__details .quantity-btn {
+    font-size: 12px;
+    color: var(--color-neutral-500);
+}
+
+.checkout-item__details .cart-item__remove {
+    font-size: 9px;
+    color: var(--color-neutral-400); 
+    letter-spacing: 0.15em;
+    margin-top: 12px;
+}

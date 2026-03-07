@@ -6,24 +6,59 @@ const Success_Modal = document.getElementById("successModal");
 const Success_Overlay = document.getElementById("successOverlay");
 const Order_Id_Span = document.getElementById("orderId");
 
-let Cart_Items = [];
-
 async function InitCheckout() {
     await FetchCart();
+    
+    if (Cart_Items.length === 0) {
+        window.location.href = '/mackkas';
+        return;
+    }
+    
     RenderCheckoutSummary();
     SetupForm();
 }
 
-async function FetchCart() {
+async function UpdateQuantity(id, delta) {
+    const item = Cart_Items.find(i => i.id === id);
+    if (!item) return;
+
+    item.qty += delta;
+    if (item.qty <= 0) {
+        Cart_Items = Cart_Items.filter(i => i.id !== id);
+    }
+
+    RenderCheckoutSummary();
+    await SyncCart();
+    
+    if (Cart_Items.length === 0) {
+        window.location.href = '/mackkas';
+    }
+}
+
+async function RemoveFromCart(id) {
+    Cart_Items = Cart_Items.filter(i => i.id !== id);
+    RenderCheckoutSummary();
+    await SyncCart();
+    
+    if (Cart_Items.length === 0) {
+        window.location.href = '/mackkas';
+    }
+}
+
+async function SyncCart() {
     try {
-        const response = await fetch('/api/cart');
-        Cart_Items = await response.json();
+        await fetch('/api/cart', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items: Cart_Items })
+        });
         
-        if (Cart_Items.length === 0) {
-            window.location.href = '/mackkas';
+        // Refresh global cart badge if possible
+        if (typeof UpdateGlobalCartBadge === 'function') {
+            UpdateGlobalCartBadge();
         }
     } catch (error) {
-        console.error("Error fetching checkout items:", error);
+        console.error("Error syncing cart:", error);
     }
 }
 
@@ -33,9 +68,14 @@ function RenderCheckoutSummary() {
             <img src="${item.img1}" alt="${item.name}" class="checkout-item__img">
             <div class="checkout-item__details">
                 <h4>${item.name}</h4>
-                <p>Quantity: ${item.qty}</p>
+                <div class="cart-item__quantity" style="margin-top: 5px; scale: 0.85; transform-origin: left; height: 32px;">
+                    <button class="quantity-btn" onclick="UpdateQuantity(${item.id}, -1)">-</button>
+                    <span style="font-size: 12px; min-width: 20px; text-align: center;">${item.qty}</span>
+                    <button class="quantity-btn" onclick="UpdateQuantity(${item.id}, 1)">+</button>
+                </div>
+                <button class="cart-item__remove" onclick="RemoveFromCart(${item.id})" style="font-weight: 500;">REMOVE</button>
             </div>
-            <div style="font-size: 14px; font-weight: 500;">
+            <div style="font-size: 16px; font-weight: 600; text-align: right;">
                 $${(item.Price * item.qty).toFixed(2)}
             </div>
         </div>

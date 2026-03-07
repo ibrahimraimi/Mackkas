@@ -1,9 +1,4 @@
 const Product_Grid = document.getElementById("productGrid");
-const Cart_Drawer = document.getElementById("cartDrawer");
-const Cart_Overlay = document.getElementById("cartOverlay");
-const Cart_Items_Container = document.getElementById("cartItemsContainer");
-const Cart_Count_Badges = document.querySelectorAll("#cartCountBadge");
-const Cart_Subtotal_Display = document.getElementById("cartSubtotal");
 const Product_Count_Text = document.getElementById("productCountText");
 
 // Filter Elements
@@ -17,7 +12,6 @@ const Max_Price_Input = document.getElementById("maxPrice");
 const Current_Category_Title = document.getElementById("currentCategoryTitle");
 
 let All_Products = [];
-let Cart_Items = [];
 let Active_Filters = {
     category: null,
     clothType: [],
@@ -40,7 +34,6 @@ async function Init() {
 
     await SetupCategories(); // Fetch filter options first
     await FetchProducts();
-    await FetchCart();
     SetupSortDropdown();
 }
 
@@ -79,7 +72,9 @@ async function FetchProducts() {
 async function FetchCart() {
     try {
         const response = await fetch('/api/cart');
-        Cart_Items = await response.json();
+        if (!response.ok) throw new Error("Failed to fetch cart");
+        const data = await response.json();
+        Cart_Items = Array.isArray(data) ? data : [];
         UpdateCartUI();
     } catch (error) {
         console.error("Error fetching cart:", error);
@@ -367,12 +362,6 @@ function UpdateURL() {
     window.history.pushState({ path: newUrl }, '', newUrl);
 }
 
-function OpenCart() {
-    Cart_Drawer.classList.remove("close_cart");
-    Cart_Overlay.classList.remove("cart_blocker_hide");
-    document.body.style.overflow = "hidden";
-}
-
 async function AddToCart(id) {
     const product = All_Products.find(p => p.id === id);
     if (!product) return;
@@ -386,62 +375,14 @@ async function AddToCart(id) {
 
     UpdateCartUI();
     await SyncCart();
-    OpenCart();
-}
-
-async function UpdateQuantity(id, delta) {
-    const item = Cart_Items.find(i => i.id === id);
-    if (!item) return;
-
-    item.qty += delta;
-    if (item.qty <= 0) {
-        Cart_Items = Cart_Items.filter(i => i.id !== id);
-    }
-
-    UpdateCartUI();
-    await SyncCart();
-}
-
-function UpdateCartUI() {
-    const totalQty = Cart_Items.reduce((acc, curr) => acc + curr.qty, 0);
-    Cart_Count_Badges.forEach(badge => badge.textContent = totalQty);
-
-    if (Cart_Items.length === 0) {
-        Cart_Items_Container.innerHTML = `<div class="text-center" style="padding: 40px 0;">Your bag is empty.</div>`;
-        Cart_Subtotal_Display.textContent = "$0.00";
-    } else {
-        Cart_Items_Container.innerHTML = Cart_Items.map(item => `
-            <div class="cart-item">
-                <img src="${item.img1}" alt="${item.name}" class="cart-item__image">
-                <div class="cart-item__details">
-                    <p class="cart-item__category">${item.category}</p>
-                    <h4 class="cart-item__title">${item.name}</h4>
-                    <div class="cart-item__quantity">
-                        <button class="quantity-btn" onclick="UpdateQuantity(${item.id}, -1)">-</button>
-                        <span style="font-size: 12px;">${item.qty}</span>
-                        <button class="quantity-btn" onclick="UpdateQuantity(${item.id}, 1)">+</button>
-                    </div>
-                </div>
-                <div style="text-align: right; font-size: 14px;">
-                    $${(item.Price * item.qty).toFixed(2)}
-                </div>
-            </div>
-        `).join("");
-
-        const subtotal = Cart_Items.reduce((acc, curr) => acc + (curr.Price * curr.qty), 0);
-        Cart_Subtotal_Display.textContent = `$${subtotal.toFixed(2)}`;
-    }
-}
-
-async function SyncCart() {
-    try {
-        await fetch('/api/cart', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ items: Cart_Items })
-        });
-    } catch (error) {
-        console.error("Error syncing cart:", error);
+    
+    // Open cart drawer
+    const drawer = document.getElementById("cartDrawer");
+    const overlay = document.getElementById("cartOverlay");
+    if (drawer && overlay) {
+        drawer.classList.remove("close_cart");
+        overlay.classList.remove("cart_blocker_hide");
+        document.body.style.overflow = "hidden";
     }
 }
 

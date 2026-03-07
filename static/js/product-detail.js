@@ -1,17 +1,10 @@
 const Detail_Container = document.getElementById("productDetailContainer");
 const Related_Grid = document.getElementById("relatedProductsGrid");
-const Cart_Drawer = document.getElementById("cartDrawer");
-const Cart_Overlay = document.getElementById("cartOverlay");
-const Cart_Items_Container = document.getElementById("cartItemsContainer");
-const Cart_Count_Badges = document.querySelectorAll("#cartCountBadge");
-const Cart_Subtotal_Display = document.getElementById("cartSubtotal");
 
 let Current_Product = null;
-let Cart_Items = [];
 
 async function Init() {
     await FetchProduct();
-    await FetchCart();
     await FetchRelated();
     SetupEventListeners();
 }
@@ -24,16 +17,6 @@ async function FetchProduct() {
     } catch (error) {
         console.error("Error fetching product:", error);
         Detail_Container.innerHTML = `<div class="text-center" style="padding: 100px 0;">Product not found.</div>`;
-    }
-}
-
-async function FetchCart() {
-    try {
-        const response = await fetch('/api/cart');
-        Cart_Items = await response.json();
-        UpdateCartUI();
-    } catch (error) {
-        console.error("Error fetching cart:", error);
     }
 }
 
@@ -69,7 +52,7 @@ function RenderProductDetail(product) {
 
                 <div class="product-detail__actions">
                     <button class="button button--primary w-full" onclick="AddToCart(${product.id})">Add to Bag</button>
-                    <button class="button button--outline w-full" onclick="window.location.href='/checkout'">Express Checkout</button>
+                    <button class="button button--outline w-full" onclick="ExpressCheckout(${product.id})">Express Checkout</button>
                 </div>
 
                 <div class="product-detail__meta">
@@ -106,7 +89,7 @@ function RenderRelated(products) {
     `).join("");
 }
 
-// Cart Logic (Shared with Catalog)
+// Global Cart Interactions
 async function AddToCart(id) {
     const existingItem = Cart_Items.find(item => item.id === id);
     if (existingItem) {
@@ -117,52 +100,28 @@ async function AddToCart(id) {
 
     UpdateCartUI();
     await SyncCart();
-    OpenCart();
+    
+    // Open drawer
+    const drawer = document.getElementById("cartDrawer");
+    const overlay = document.getElementById("cartOverlay");
+    if (drawer && overlay) {
+        drawer.classList.remove("close_cart");
+        overlay.classList.remove("cart_blocker_hide");
+        document.body.style.overflow = "hidden";
+    }
 }
 
-function OpenCart() {
-    Cart_Drawer.classList.remove("close_cart");
-    Cart_Overlay.classList.remove("cart_blocker_hide");
-    document.body.style.overflow = "hidden";
-}
-
-function UpdateCartUI() {
-    const totalQty = Cart_Items.reduce((acc, curr) => acc + curr.qty, 0);
-    Cart_Count_Badges.forEach(badge => badge.textContent = totalQty);
-
-    if (Cart_Items.length === 0) {
-        Cart_Items_Container.innerHTML = `<div class="text-center" style="padding: 40px 0;">Your bag is empty.</div>`;
-        Cart_Subtotal_Display.textContent = "$0.00";
+async function ExpressCheckout(id) {
+    const existingItem = Cart_Items.find(item => item.id === id);
+    if (!existingItem) {
+        Cart_Items.push({ ...Current_Product, qty: 1 });
     } else {
-        Cart_Items_Container.innerHTML = Cart_Items.map(item => `
-            <div class="cart-item">
-                <img src="${item.img1}" alt="${item.name}" class="cart-item__image">
-                <div class="cart-item__details">
-                    <p class="cart-item__category">${item.category}</p>
-                    <h4 class="cart-item__title">${item.name}</h4>
-                    <div style="font-size: 11px; margin-top: 5px;">Quantity: ${item.qty}</div>
-                </div>
-                <div style="text-align: right; font-size: 14px;">
-                    $${(item.Price * item.qty).toFixed(2)}
-                </div>
-            </div>
-        `).join("");
-
-        const subtotal = Cart_Items.reduce((acc, curr) => acc + (curr.Price * curr.qty), 0);
-        Cart_Subtotal_Display.textContent = `$${subtotal.toFixed(2)}`;
+        existingItem.qty++;
     }
-}
-
-async function SyncCart() {
-    try {
-        await fetch('/api/cart', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ items: Cart_Items })
-        });
-    } catch (error) {
-        console.error("Error syncing cart:", error);
-    }
+    
+    UpdateCartUI();
+    await SyncCart();
+    window.location.href = '/checkout';
 }
 
 Init();

@@ -93,10 +93,10 @@ def get_cart():
     return jsonify([{
         'id': item.product.id,
         'name': item.product.name,
-        'price': f'${item.product.price}',
+        'price': f'${item.product.price:,.2f}',
         'Price': item.product.price,
         'qty': item.quantity,
-        'img1': url_for('static', filename=item.product.img1)
+        'img1': item.product.primary_url
     } for item in cart_items])
 
 @user_bp.route('/api/cart', methods=['POST'])
