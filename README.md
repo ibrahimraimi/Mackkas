@@ -4,7 +4,7 @@ Mackkas is a modernized, full-stack e-commerce platform built with Flask, SQLite
 
 ---
 
-#Setup Guide
+## Setup Guide
 
 Follow these steps to get your own instance of Mackkas running locally.
 
